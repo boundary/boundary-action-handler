@@ -24,8 +24,8 @@
          http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
          http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 
+  <bean id="servlet-processor" class="com.boundary.sdk.action.ServletActionProcessor"/>
   <camelContext xmlns="http://camel.apache.org/schema/spring">
-
     <route id="ACTION-ROUTE">
       <!-- incoming requests from the servlet is routed -->
       <from uri="servlet:///hello"/>
@@ -38,9 +38,8 @@
         </when>
         <otherwise>
           <log loggingLevel="INFO" message="${body}"/>
-          <transform>
-            <simple>${out.body}</simple>
-          </transform>
+          <bean ref="servlet-processor"/>
+          <log loggingLevel="INFO" message="${body}"/>
         </otherwise>
       </choice>
     </route>
